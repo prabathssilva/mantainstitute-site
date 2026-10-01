@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """Builds the Manta Institute static site into ./site"""
 import os
-OUT = "/home/claude/site"
+OUT = os.path.dirname(os.path.abspath(__file__))
 APPLY = "https://forms.gle/bUK9oC2Zib9sQvzj8"
-PROTECT_FORM = "https://docs.google.com/forms/d/e/1FAIpQLScz-QARi2K579oBPvYgywxY8e8sqkBUCAi9ujgPSWcK-N67bA/viewform"
 EMAIL = "info@mantainstitute.org"
 
 NAV = [("index.html", "Home"), ("about.html", "About"), ("courses.html", "Courses"),
-       ("journey.html", "The Journey"), ("manta-protect.html", "Manta Protect")]
+       ("journey.html", "The Journey")]
 
 def page(fname, title, desc, body, head_extra=""):
     menu = "".join(
@@ -59,8 +58,6 @@ def page(fname, title, desc, body, head_extra=""):
         <li><a href="/about">About</a></li>
         <li><a href="/courses">Courses</a></li>
         <li><a href="/journey">The Journey</a></li>
-        <li><a href="/manta-protect">Manta Protect</a></li>
-        <li><a href="/phd-verification-project">PhD Verification Project</a></li>
       </ul>
     </div>
     <div>
@@ -294,130 +291,6 @@ journey = f"""
 """
 page("journey.html", "The Journey", "The stages of a research mathematician's career, from PhD to tenure — and why the Manta Institute believes a Sri Lankan will win the Abel Prize.", journey)
 
-# ---------------------------------------------------------------- PROTECT
-def cards(items):
-    return '<div class="grid">' + "".join(f'<div class="card"><h4>{t}</h4><p>{d}</p></div>' for t, d in items) + '</div>'
-protect = f"""
-<div class="wrap">
-<header class="page-head">
-  <p class="kicker">Manta Protect</p>
-  <h1>The Manta Protection Arm</h1>
-  <p class="lede">Safeguarding Sri Lankan mathematics students through documentation, protection, and international accountability.</p>
-  <p><a class="btn" href="{PROTECT_FORM}">Help protect talented students</a> <a class="btn ghost" href="/phd-verification-project">PhD Verification Project</a></p>
-</header>
-<div class="read" style="padding:0">
-<blockquote>“Every human being has the right to quality education and lifelong learning opportunities.”<cite>— UNESCO, The Right to Education</cite></blockquote>
-<blockquote>“Laws are useless if people do not use them to protect their own rights.”<cite>— Mahatma Gandhi</cite></blockquote>
-<figure><img src="/img/protect.jpg" alt="Manta Protect" loading="lazy"></figure>
-
-<h2>Testimony Categories</h2>
-<h3>1. Grade manipulation targeting high-achieving students</h3>
-<ul><li>Deliberate suppression of grades to punish or discourage strong performers.</li><li>Bias patterns where grades contradict objective performance evidence.</li><li>Retaliatory grading against independent or principled students.</li></ul>
-<h3>2. Exploitation of volunteer work from talented students</h3>
-<ul><li>Coercion into unpaid “volunteer” work under threat of grade reduction.</li><li>Misuse of authority for projects unrelated to academic growth.</li></ul>
-<h3>3. Misuse of power by individuals in leadership</h3>
-<ul><li>Blocking talented students from international opportunities.</li><li>Favoritism in hiring.</li></ul>
-<h3>4. Academic fraud and paper mills</h3>
-<ul><li><strong>Paper mills:</strong> publications used to inflate credentials.</li><li><strong>Unmerited advanced degrees:</strong> advanced degrees in mathematics awarded for trivial, plagiarized, or non-mathematical work, undermining academic integrity and devaluing legitimate research.</li></ul>
-<h3>5. Financial misconduct (emerging)</h3>
-<ul><li>Misuse of funds within “non-profit” entities tied to academic departments or run by faculty directors.</li><li>Lack of transparency in financial governance.</li></ul>
-<p><a class="btn" href="{PROTECT_FORM}">Submit a testimony</a></p>
-</div>
-
-<h2>Roadmap</h2>
-<div class="level"><span>Level 1</span><h3>Foundations — Initiatives &amp; Safety</h3></div>
-{cards([("Grade Integrity Watch","Document long-term patterns of unfair grading targeting high-achieving students; compile evidence across semesters and courses."),
-        ("Fair Work &amp; Anti-Exploitation","Expose coerced “volunteer” work tied to grades. Separate genuine mentoring from misuse of institutional authority."),
-        ("Academic Integrity","Track plagiarism, paper-mill pipelines, and credential inflation; focus on rigor, transparency, and research competence."),
-        ("Financial Conduct","Surface patterns of funding misuse tied to academic gatekeeping; spotlight incentives that harm student opportunity."),
-        ("Safety &amp; Confidential Reporting","Provide safe, anonymous intake and shielding strategies so students can report without fear of retaliation.")])}
-<div class="level"><span>Level 2</span><h3>Validation — Watchdog Organizations</h3></div>
-{cards([("International Standards","Align with global norms (e.g., UNESCO’s right to education) to benchmark fairness and due process."),
-        ("External Audits","Invite independent reviewers to assess patterns and verify evidence; publish methodologies for scrutiny."),
-        ("Media &amp; Civil Society","Coordinate with credible outlets and NGOs for responsible reporting and student-safe storytelling."),
-        ("Legal Advisory","Consult legal partners on whistleblower protection, privacy, and cross-border data stewardship.")])}
-<div class="level"><span>Level 3</span><h3>Leverage — Funding &amp; Rankings</h3></div>
-{cards([("Funding Agencies","Connect evidence to grant-making criteria; encourage student-first compliance in funding decisions."),
-        ("Scholarship Channels","Align scholarships with verified integrity signals; prioritize students harmed by gatekeeping."),
-        ("Ranking Metrics","Advocate for inclusion of academic integrity and student outcomes in university rankings."),
-        ("Stakeholder Briefings","Provide periodic, evidence-based briefs to donors and partners to sustain momentum for reform.")])}
-<div class="level"><span>Level 4</span><h3>Action — Domestic Implementation</h3></div>
-{cards([("University Departments","Engage departments with targeted reform requests; support fair assessment and transparent syllabi."),
-        ("University Mission Alignment","Map evidence to each institution’s mission; propose measurable integrity and student-success KPIs."),
-        ("Regulatory Bodies","Submit concise dossiers to relevant bodies with documented cases and recommended remedies."),
-        ("Implementation Partners","Coordinate with local NGOs and professional societies to deliver workshops and policy pilots.")])}
-</div>
-"""
-page("manta-protect.html", "Manta Protect", "Manta Protect safeguards Sri Lankan mathematics students through documentation, protection, and international accountability.", protect)
-
-# ---------------------------------------------------------------- PHD VERIFICATION
-chain = [("Legal authority", ""), ]
-phd = f"""
-<div class="read">
-<header class="page-head">
-  <p class="kicker">Manta Protect · PhD Verification Project</p>
-  <h1>Checkpoint 1: By-Laws and Regulatory Pathway</h1>
-  <p class="lede">Before judging a thesis, viva, or final award, we first ask a simpler question: was the candidate processed under the correct legal framework and the official University approval chain?</p>
-</header>
-
-<h2>1. Legal Authority</h2>
-<ol class="steps">
-  <li><b>Universities Act No. 16 of 1978</b>The legal foundation for the university system.</li>
-  <li><b>Subsequent Amendments</b>Including Amendment Act No. 7 of 1985.</li>
-  <li><b>Section 135</b>Universities may make by-laws.</li>
-  <li><b>University of Colombo Council</b>Makes by-laws for postgraduate research degrees.</li>
-  <li><b>FGS MPhil/PhD By-Laws No. 06 of 2010</b>Replaced By-Laws No. 12 of 2002.</li>
-</ol>
-<div class="note"><strong>Regulatory test:</strong> Was the candidate processed under the correct by-laws and university rules in force at the time?</div>
-
-<h2>2. Entry Pathway Test</h2>
-<p>The by-laws do not treat every applicant the same way. The key question is whether the candidate entered through the correct legal pathway.</p>
-<div class="grid">
-  <div class="card"><h3>Direct PhD Route — Section 18.1</h3><ul>
-    <li><strong>18.1(i):</strong> MPhil degree from the University of Colombo or another recognized university, with the programme at least two years.</li>
-    <li><strong>or 18.1(ii):</strong> Bachelor’s degree in the relevant field plus a Master’s degree of at least two years with at least one year of research.</li>
-    <li>Also requires acceptance by the Graduate Studies Admission Board/Committee and good working knowledge of English.</li></ul></div>
-  <div class="card"><h3>MPhil → PhD Route</h3><ul>
-    <li>If direct PhD eligibility is not available, the candidate normally enters through MPhil registration.</li>
-    <li><strong>Section 6.2:</strong> provisional MPhil registration with possibility of upgrade to PhD.</li>
-    <li><strong>Section 18.1(iii):</strong> at least twelve months of approved MPhil research before the PhD pathway.</li>
-    <li><strong>Section 10:</strong> formal upgrade process to PhD.</li></ul></div>
-</div>
-<div class="note"><strong>Key test:</strong> Was the candidate placed in the correct legal route, or was direct PhD registration granted without legal eligibility?</div>
-
-<h2>3. Required Institutional Approval Chain</h2>
-<p>This is the central public-interest point: one supervisor, one politician, or one administrator cannot lawfully replace the institutional approval chain.</p>
-<ol class="steps">
-  <li><b>Application submitted</b>Candidate submits the prescribed application and fees to the Faculty of Graduate Studies.</li>
-  <li><b>Coordinator screening</b>Programme Coordinator(s) examine whether minimum entry requirements are satisfied.</li>
-  <li><b>Placement test and interview</b>Eligible candidates are called for the required evaluation process.</li>
-  <li><b>Graduate Studies Admission Committee</b>The Committee has power to accept or reject the application.</li>
-  <li><b>Board of Study → Faculty Board → Senate</b>The selected list must pass through the relevant Board of Study, Faculty Board, and Senate.</li>
-  <li><b>Provisional registration</b>Only after Faculty Board and Senate approval may the applicant register provisionally as a postgraduate student.</li>
-  <li><b>Research Methodology and proposal</b>Newly registered candidates must complete the Research Methodology course and proposal process before confirmation.</li>
-</ol>
-<div class="note">No single supervisor can bypass this chain. The verification target is the institutional record, not private claims.</div>
-
-<h2>4. Documentary Evidence Checklist</h2>
-<ul class="checklist">
-  <li>Application form</li><li>Application fee receipt</li><li>Full degree certificates</li><li>Full official transcripts</li>
-  <li>English-knowledge evidence, if recorded</li><li>Placement test record</li><li>Interview notes / scores</li>
-  <li>Admission Committee minutes</li><li>Board of Study minutes</li><li>Faculty Board minutes</li><li>Senate approval</li>
-  <li>Provisional registration record</li><li>Research Methodology marks / attendance</li><li>Supervisor appointment record</li>
-</ul>
-<div class="note">Critical phrase in the by-laws: <strong>“has passed”</strong>. This points to completed degree evidence, not partial study or an incomplete transcript.</div>
-
-<h2>5. Involved Parties</h2>
-<ul class="checklist">
-  <li>Candidate</li><li>Deputy Registrar / Assistant Registrar, FGS</li><li>Programme Coordinator(s)</li><li>Dean, FGS</li>
-  <li>Director of Studies</li><li>Graduate Studies Admission Committee</li><li>Relevant Board of Study</li><li>Faculty Board</li>
-  <li>Senate</li><li>Supervisor(s)</li>
-</ul>
-<p><a class="btn ghost" href="/manta-protect">Back to Manta Protect</a></p>
-</div>
-"""
-page("phd-verification-project.html", "PhD Verification Project", "Manta Protect's PhD Verification Project: checking whether postgraduate degrees followed the legal by-laws and institutional approval chain.", phd)
-
 # ---------------------------------------------------------------- 404 + redirects
 page("404.html", "Page not found", "Page not found.", """
 <div class="read"><header class="page-head"><p class="kicker">404</p><h1>This page has moved</h1>
@@ -428,7 +301,7 @@ redirects = {
     "home": "/", "about-the-founder": "/about#founder", "why-100-is-enough": "/about#why-100",
     "about-page": "/about", "about-page-for-math-people": "/about", "courses-fall-2025": "/courses",
     "foundations-of-mathematics": "/courses#foundations", "curriculum": "/courses", "detailed-curriculum": "/courses",
-    "manta-protect-roadmap": "/manta-protect", "facebook-landing-page": "/", "mentorship": "/about",
+    "manta-protect": "/", "manta-protect-roadmap": "/", "phd-verification-project": "/", "facebook-landing-page": "/", "mentorship": "/about",
     "mentorship-1": "/about", "funding-page": "/about", "manta-blog": "/",
 }
 for slug, target in redirects.items():
@@ -441,7 +314,7 @@ with open(os.path.join(OUT, "CNAME"), "w") as f:
     f.write("www.mantainstitute.org\n")
 with open(os.path.join(OUT, "robots.txt"), "w") as f:
     f.write("User-agent: *\nAllow: /\nSitemap: https://www.mantainstitute.org/sitemap.xml\n")
-urls = ["", "about", "courses", "journey", "manta-protect", "phd-verification-project"]
+urls = ["", "about", "courses", "journey"]
 with open(os.path.join(OUT, "sitemap.xml"), "w") as f:
     f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
             "".join(f"  <url><loc>https://www.mantainstitute.org/{u}</loc></url>\n" for u in urls) + "</urlset>\n")
