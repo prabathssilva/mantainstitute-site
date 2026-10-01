@@ -4,6 +4,8 @@ import os
 OUT = os.path.dirname(os.path.abspath(__file__))
 APPLY = "https://forms.gle/bUK9oC2Zib9sQvzj8"
 EMAIL = "info@mantainstitute.org"
+YOUTUBE = "https://www.youtube.com/@MantaInstituteforMathematics"
+YT_ICON = '<svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>'
 
 NAV = [("index.html", "Home"), ("about.html", "About"), ("courses.html", "Courses"),
        ("journey.html", "The Journey")]
@@ -40,7 +42,7 @@ def page(fname, title, desc, body, head_extra=""):
       <span><b>Manta Institute for Mathematics</b><small>Prove. Connect. Protect.</small></span>
     </a>
     <button class="menu-toggle" aria-expanded="false" aria-controls="menu">Menu</button>
-    <ul class="menu" id="menu">{menu}<li><a class="cta" href="{APPLY}">Apply</a></li></ul>
+    <ul class="menu" id="menu">{menu}<li><a class="yt-nav" href="{YOUTUBE}" target="_blank" rel="noopener">{YT_ICON}<span>YouTube</span></a></li><li><a class="cta" href="{APPLY}">Apply</a></li></ul>
   </nav>
 </header>
 <main>
@@ -65,6 +67,7 @@ def page(fname, title, desc, body, head_extra=""):
       <ul>
         <li><a href="mailto:{EMAIL}">{EMAIL}</a></li>
         <li><a href="{APPLY}">Apply to the Prep Program</a></li>
+        <li><a class="yt-foot" href="{YOUTUBE}" target="_blank" rel="noopener">{YT_ICON} YouTube: lectures &amp; videos</a></li>
       </ul>
     </div>
   </div>
@@ -95,6 +98,15 @@ home = f"""
     <h2>The Prep Program is Open</h2>
     <p>For students with discipline, hunger, and heart — the Manta Prep Program offers an intensive path into modern mathematics. No tuition. No fluff. Just you, your ideas, and the mentors who will help sharpen them.</p>
     <p><a class="btn" href="{APPLY}">Apply Now</a> <a class="btn ghost" href="/courses">Courses &amp; Materials</a></p>
+  </div>
+</section>
+
+<section class="band yt-band">
+  <div class="inner">
+    <h2>Watch the Lectures on YouTube</h2>
+    <p>Full course lectures — Foundations of Mathematics, Linear Algebra, Statistics and more — are free on the Manta Institute YouTube channel. Start watching today, no application needed.</p>
+    <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/HKouQj8MpVQ" title="Join Manta Institute for Mathematics After A/L" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    <p><a class="btn yt" href="{YOUTUBE}" target="_blank" rel="noopener">{YT_ICON} Visit our YouTube Channel</a> <a class="btn ghost" href="/courses">Course Playlists</a></p>
   </div>
 </section>
 
@@ -181,14 +193,14 @@ about = f"""
 page("about.html", "About", "The vision and mission of the Manta Institute for Mathematics, and its founder Dr. Prabath Silva.", about)
 
 # ---------------------------------------------------------------- COURSES
-yt = lambda u, t: f'<a class="btn ghost" href="{u}">{t}</a>'
+yt = lambda u, t: f'<a class="btn yt" href="{u}" target="_blank" rel="noopener">{YT_ICON} {t}</a>'
 courses = f"""
 <div class="wrap">
 <header class="page-head">
   <p class="kicker">Courses</p>
   <h1>Courses &amp; Materials</h1>
   <p class="lede">All syllabi, playlists and reading lists are public on this page. Registered students also get access to the private Piazza and Gradescope spaces for discussion, homework and grading.</p>
-  <p><a class="btn" href="{APPLY}">Apply (Google Form)</a></p>
+  <p><a class="btn" href="{APPLY}">Apply (Google Form)</a> <a class="btn yt" href="{YOUTUBE}" target="_blank" rel="noopener">{YT_ICON} All Lectures on YouTube</a></p>
 </header>
 
 <h2>Course Sequence</h2>
@@ -231,7 +243,7 @@ courses = f"""
 <h2>5 · Functional Analysis</h2>
 <p>Fully online. Primary video lectures by Claudio Landim (≈50 minutes each), three per week for twelve weeks. Weekly homework via Gradescope, a midterm and final, and a weekly Zoom discussion session.</p>
 <p><strong>Texts:</strong> Peter Lax, <em>Functional Analysis</em>; Eberhard Zeidler, <em>Applied Functional Analysis</em>; Springer UTX <em>Functional Analysis</em> (reference).</p>
-<p>{yt("https://youtu.be/OonaUALrKUk","Start Lecture 1")} {yt("https://w3.impa.br/~landim/Cursos/AF.pdf","Landim Notes (PDF)")}</p>
+<p>{yt("https://youtu.be/OonaUALrKUk","Start Lecture 1")} <a class="btn ghost" href="https://w3.impa.br/~landim/Cursos/AF.pdf">Landim Notes (PDF)</a></p>
 
 <div class="note"><strong>How to join.</strong> Apply through the Prep Program form. On acceptance you’ll receive invitations to the Piazza class (M001) and Gradescope.<br><br><a class="btn" href="{APPLY}">Apply to the Prep Program</a></div>
 </div>
