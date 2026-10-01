@@ -7,12 +7,12 @@ EMAIL = "info@mantainstitute.org"
 YOUTUBE = "https://www.youtube.com/@MantaInstituteforMathematics"
 YT_ICON = '<svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>'
 
-NAV = [("index.html", "Home"), ("about.html", "About"), ("courses.html", "Courses"),
+NAV = [("index.html", "Home"), ("about.html", "About"), ("index.html#alumni", "Alumni"),
        ("journey.html", "The Journey")]
 
 def page(fname, title, desc, body, head_extra=""):
     menu = "".join(
-        f'<li><a href="/{"" if f=="index.html" else f[:-5]}"{" aria-current=page" if f==fname else ""}>{n}</a></li>'
+        f'<li><a href="/{"" if f=="index.html" else ("#"+f.split("#")[1] if "#" in f else f[:-5])}"{" aria-current=page" if f==fname else ""}>{n}</a></li>'
         for f, n in NAV)
     full_title = "Manta Institute for Mathematics" if fname == "index.html" else f"{title} — Manta Institute for Mathematics"
     html = f"""<!doctype html>
@@ -58,7 +58,7 @@ def page(fname, title, desc, body, head_extra=""):
       <h4>Explore</h4>
       <ul>
         <li><a href="/about">About</a></li>
-        <li><a href="/courses">Courses</a></li>
+        <li><a href="/#alumni">Alumni</a></li>
         <li><a href="/journey">The Journey</a></li>
       </ul>
     </div>
@@ -83,13 +83,57 @@ t.addEventListener('click',()=>{{const o=m.classList.toggle('open');t.setAttribu
     with open(os.path.join(OUT, fname), "w") as f:
         f.write(html)
 
+
+# Math in Moscow alumni from Manta (source: https://mathinmoscow.org/alumni-list/, verified 2026-10-01)
+MIM_ALUMNI = "https://mathinmoscow.org/alumni-list/"
+MIM_AFFIL = "https://mathinmoscow.org/affiliated-organizations/"
+ALUMNI = [  # (given names, surname, university, semesters at Math in Moscow)
+    ("Tharindu Dhilhan", "Abeykoon", "University of Colombo", ["Fall 2025"]),
+    ("Charitha Jayamala", "Abeysekara", "University of Peradeniya", ["Spring 2026"]),
+    ("Arachchige Don Isitha Dinujaya", "Arachchi", "University of Moratuwa", ["Fall 2025", "Spring 2026"]),
+    ("Rathnayaka Mudiyanselage Kasun Sineth", "Bandara", "University of Colombo", ["Fall 2025"]),
+    ("Sukhithi", "Chamali", "University of Colombo", ["Spring 2024", "Spring 2025", "Fall 2025"]),
+    ("Nithika Samadith", "Gunasekara", "University of Colombo", ["Fall 2025"]),
+    ("Shavindhya Indumini", "Jayatilake", "University of Peradeniya", ["Spring 2026"]),
+    ("Senith Danushka", "Kumara", "University of Peradeniya", ["Spring 2026"]),
+    ("Dilmini Deshani", "Mannaperuma", "University of Colombo", ["Fall 2025"]),
+    ("Sarangi Madubhashani Jayathilaka Badana", "Mudiyanselage", "University of Sri Jayewardenepura", ["Spring 2026"]),
+    ("Viduth Thathsara", "Palliyaguru", "University of Sri Jayewardenepura", ["Fall 2025"]),
+    ("Janindu Nethmal", "Peiris", "University of Sri Jayewardenepura", ["Fall 2025"]),
+    ("Gonaduwage Maneth Banula", "Perera", "University of Moratuwa", ["Fall 2025"]),
+    ("Asiri Indusara Sadaham", "Ranasinghe", "University of Colombo", ["Fall 2025"]),
+    ("Sandaru Dilsara", "Rubasinghe", "University of Sri Jayewardenepura", ["Fall 2025"]),
+    ("Vinuge Dinusith", "Rupasinghe", "University of Colombo", ["Fall 2025", "Spring 2026"]),
+    ("Sasiru Seminda", "Sankhajaya", "University of Colombo", ["Fall 2025"]),
+]
+n_alumni = len(ALUMNI)
+n_unis = len({a[2] for a in ALUMNI})
+alumni_cards = "".join(
+    f'<li class="alum"><b>{g} <span class="sur">{sn}</span></b><span class="uni">{u}</span>'
+    f'<span class="sems">{" · ".join(sm)}</span></li>' for g, sn, u, sm in ALUMNI)
+
 # ---------------------------------------------------------------- HOME
 home = f"""
 <section class="hero" style="background-image:url('/img/notes-1.jpg')">
   <div class="inner">
     <h1>Proving Theorems,<br>Building Minds</h1>
     <p>The Manta Institute for Mathematics is dedicated to nurturing the next generation of pure mathematicians — beginning in Sri Lanka and extending globally. We offer deep mentorship, rigorous training, and a life-long intellectual community.</p>
-    <p><a class="btn" href="/about">Our Mission</a> <a class="btn ghost" href="/courses">See the Courses</a></p>
+    <p><a class="btn" href="/about">Our Mission</a> <a class="btn ghost" href="#alumni">Meet Our Alumni</a></p>
+  </div>
+</section>
+
+<section class="alumni" id="alumni">
+  <div class="wrap">
+    <p class="kicker">Our Alumni</p>
+    <h2>Our First Generation is Rising</h2>
+    <p class="lede">Manta students from Sri Lanka have gone on to study at <a href="https://mathinmoscow.org/">Math in Moscow</a> — the internationally recognised semester program in advanced mathematics, where they learn alongside students from leading universities worldwide. The Manta Institute is an <a href="{MIM_AFFIL}">affiliated organization of Math in Moscow</a>.</p>
+    <div class="stats">
+      <div><strong>{n_alumni}</strong><span>Math in Moscow alumni</span></div>
+      <div><strong>{n_unis}</strong><span>Sri Lankan universities</span></div>
+      <div><strong>2025–26</strong><span>Fall 2025 &amp; Spring 2026 cohorts</span></div>
+    </div>
+    <ul class="alumni-grid">{alumni_cards}</ul>
+    <p class="source">Source: <a href="{MIM_ALUMNI}">Math in Moscow alumni list</a>, where each student is listed with their university &amp; the Manta Institute for Mathematics.</p>
   </div>
 </section>
 
@@ -97,7 +141,7 @@ home = f"""
   <div class="inner">
     <h2>The Prep Program is Open</h2>
     <p>For students with discipline, hunger, and heart — the Manta Prep Program offers an intensive path into modern mathematics. No tuition. No fluff. Just you, your ideas, and the mentors who will help sharpen them.</p>
-    <p><a class="btn" href="{APPLY}">Apply Now</a> <a class="btn ghost" href="/courses">Courses &amp; Materials</a></p>
+    <p><a class="btn" href="{APPLY}">Apply Now</a></p>
   </div>
 </section>
 
@@ -106,16 +150,11 @@ home = f"""
     <h2>Watch the Lectures on YouTube</h2>
     <p>Full course lectures — Foundations of Mathematics, Linear Algebra, Statistics and more — are free on the Manta Institute YouTube channel. Start watching today, no application needed.</p>
     <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/HKouQj8MpVQ" title="Join Manta Institute for Mathematics After A/L" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-    <p><a class="btn yt" href="{YOUTUBE}" target="_blank" rel="noopener">{YT_ICON} Visit our YouTube Channel</a> <a class="btn ghost" href="/courses">Course Playlists</a></p>
+    <p><a class="btn yt" href="{YOUTUBE}" target="_blank" rel="noopener">{YT_ICON} Visit our YouTube Channel</a></p>
   </div>
 </section>
 
-<section class="band plain">
-  <div class="inner">
-    <h2>Our First Generation is Rising</h2>
-    <p>Young mathematicians from Sri Lanka are now ready to enter elite programs across the world — trained with care, supported with integrity, and driven by ideas that matter. This fall, thirteen students mentored through Manta are heading to programs like <em>Math in Moscow</em>.</p>
-  </div>
-</section>
+
 
 <section class="band" style="background-image:url('/img/notes-4.jpg')">
   <div class="inner">
@@ -192,65 +231,6 @@ about = f"""
 """
 page("about.html", "About", "The vision and mission of the Manta Institute for Mathematics, and its founder Dr. Prabath Silva.", about)
 
-# ---------------------------------------------------------------- COURSES
-yt = lambda u, t: f'<a class="btn yt" href="{u}" target="_blank" rel="noopener">{YT_ICON} {t}</a>'
-courses = f"""
-<div class="wrap">
-<header class="page-head">
-  <p class="kicker">Courses</p>
-  <h1>Courses &amp; Materials</h1>
-  <p class="lede">All syllabi, playlists and reading lists are public on this page. Registered students also get access to the private Piazza and Gradescope spaces for discussion, homework and grading.</p>
-  <p><a class="btn" href="{APPLY}">Apply (Google Form)</a> <a class="btn yt" href="{YOUTUBE}" target="_blank" rel="noopener">{YT_ICON} All Lectures on YouTube</a></p>
-</header>
-
-<h2>Course Sequence</h2>
-<div class="grid">
-  <div class="card"><h4>Beginning</h4><h3>0 · Foundations of Mathematics</h3><p class="meta">Logic, set theory, construction of the number systems — Tao, <em>Analysis I</em>, Appendix &amp; Ch. 1–5</p></div>
-  <div class="card"><h4>1st Semester</h4><h3>1 · Analysis I</h3><p class="meta">Tao, <em>Analysis I</em>, Ch. 6–11 (follow-up: <em>Analysis II</em>)</p></div>
-  <div class="card"><h4>1st Semester</h4><h3>2 · Linear Algebra</h3><p class="meta"><em>Linear Algebra Done Right</em>, following Axler’s lectures</p></div>
-  <div class="card"><h4>1st Semester</h4><h3>3 · Abstract Algebra</h3><p class="meta">Fraleigh, <em>A First Course in Abstract Algebra</em></p></div>
-  <div class="card"><h4>1st Semester</h4><h3>4 · Statistics</h3><p class="meta">Freedman–Pisani–Purves, <em>Statistics</em> (4th ed.)</p></div>
-  <div class="card"><h4>3rd Semester</h4><h3>5 · Functional Analysis</h3><p class="meta">Lax, <em>Functional Analysis</em>, with Landim’s video lectures</p></div>
-</div>
-
-<div class="read" style="padding:0">
-<h2 id="foundations">0 · Foundations of Mathematics</h2>
-<p>A rigorous introduction to proof, set-theoretic foundations and number systems, followed by axiomatic set theory and mathematical logic with an on-ramp to AI and knowledge representation. <strong>Prerequisites:</strong> precalculus/calculus and readiness to write proofs.</p>
-<p><strong>Lectures:</strong> Dr. Ramasinghe — Manta Institute YouTube playlist.</p>
-<p>{yt("https://youtube.com/playlist?list=PLyJ3cIWJvH2xMFMewVrmtZUjO14xT7O56","Watch Playlist")}</p>
-<div class="grid">
-  <div class="card"><h4>Part I</h4><h3>Mathematical Reasoning</h3><ul><li>Statements &amp; proofs: logic, quantifiers, induction</li><li>Sets, functions, relations, bijections</li><li>Counting: pigeonhole, binomial identities, recursion</li><li>Axioms for number systems; Peano</li><li>Sequences: monotone and Cauchy previews</li></ul></div>
-  <div class="card"><h4>Part II</h4><h3>Number Systems</h3><ul><li>Natural numbers: induction &amp; recursion</li><li>Integers &amp; rationals via equivalence classes</li><li>Reals via Cauchy sequences; LUB property</li><li>Dedekind cuts</li><li>p-adic numbers &amp; Ostrowski’s theorem</li></ul></div>
-  <div class="card"><h4>Part III</h4><h3>Axiomatic Set Theory</h3><ul><li>ZFC: building mathematics in ZFC</li><li>Ordinals, transfinite induction</li><li>Cardinals and their arithmetic</li><li>Axiom of Choice, Zorn’s Lemma, Well-Ordering</li></ul></div>
-  <div class="card"><h4>Part IV</h4><h3>Logic &amp; Knowledge Representation</h3><ul><li>Propositional &amp; first-order logic; compactness</li><li>Modal logic primer</li><li>Logic &amp; AI</li><li>Introduction to Lean; mathematics with AI</li></ul></div>
-</div>
-<p>Future admission may require submitting homework and passing an exam based on these lectures.</p>
-
-<h2>1 · Analysis I</h2>
-<p>Chapters 6–11 of Terence Tao’s <em>Analysis I</em>; a follow-up course covers <em>Analysis II</em>. Piazza and Gradescope access upon acceptance.</p>
-
-<h2>2 · Linear Algebra</h2>
-<p><em>Linear Algebra Done Right</em>, following the author’s lectures. Prepares students for <a href="https://mathinmoscow.org/courses/">courses at Math in Moscow</a> and the Linear Algebra component of the <a href="https://math.indiana.edu/student-portal/graduate/phd/exams/tier-1-exams/index.html">Indiana University Tier I PhD qualifying exams</a>, and builds foundations for Abstract Algebra, Number Theory, Analysis II, Functional Analysis, Differential Geometry, AI and Machine Learning.</p>
-<p>{yt("https://youtube.com/playlist?list=PLGAnmvB9m7zOBVCZBUUmSinFV0wEir2Vw","Axler Lecture Playlist")}</p>
-
-<h2>3 · Abstract Algebra</h2>
-<p>John B. Fraleigh, <em>A First Course in Abstract Algebra</em>. Prepares students for <a href="https://mathinmoscow.org/courses/advanced-algebra/">Advanced Algebra at Math in Moscow</a> and the algebra portion of the IU Tier I exams. Live online lectures on Zoom (Saturdays &amp; Sundays, 5–8 pm Sri Lanka time), recorded to YouTube; Piazza for discussion and Gradescope for homework.</p>
-
-<h2>4 · Statistics</h2>
-<p><em>Statistics</em> (4th ed.) by Freedman, Pisani and Purves. In-person lectures at Apex Campus, Nugegoda; discussion and homework on Google Classroom.</p>
-<p>{yt("https://youtube.com/playlist?list=PLyJ3cIWJvH2yeUdKNUEQ7mhvLbV0vsQGu","Recorded Lectures")}</p>
-
-<h2>5 · Functional Analysis</h2>
-<p>Fully online. Primary video lectures by Claudio Landim (≈50 minutes each), three per week for twelve weeks. Weekly homework via Gradescope, a midterm and final, and a weekly Zoom discussion session.</p>
-<p><strong>Texts:</strong> Peter Lax, <em>Functional Analysis</em>; Eberhard Zeidler, <em>Applied Functional Analysis</em>; Springer UTX <em>Functional Analysis</em> (reference).</p>
-<p>{yt("https://youtu.be/OonaUALrKUk","Start Lecture 1")} <a class="btn ghost" href="https://w3.impa.br/~landim/Cursos/AF.pdf">Landim Notes (PDF)</a></p>
-
-<div class="note"><strong>How to join.</strong> Apply through the Prep Program form. On acceptance you’ll receive invitations to the Piazza class (M001) and Gradescope.<br><br><a class="btn" href="{APPLY}">Apply to the Prep Program</a></div>
-</div>
-</div>
-"""
-page("courses.html", "Courses", "Courses of the Manta Institute for Mathematics: Foundations, Analysis, Linear Algebra, Abstract Algebra, Statistics and Functional Analysis — with public syllabi and lecture playlists.", courses)
-
 # ---------------------------------------------------------------- JOURNEY
 def stage(n, title, body, exits=""):
     return f'<li><b>{title}</b>{body}{exits}</li>'
@@ -307,12 +287,12 @@ page("journey.html", "The Journey", "The stages of a research mathematician's ca
 page("404.html", "Page not found", "Page not found.", """
 <div class="read"><header class="page-head"><p class="kicker">404</p><h1>This page has moved</h1>
 <p class="lede">The Manta Institute website has been rebuilt, and some older pages were retired.</p></header>
-<p><a class="btn" href="/">Go to the home page</a> <a class="btn ghost" href="/courses">Courses</a></p></div>""")
+<p><a class="btn" href="/">Go to the home page</a> <a class="btn ghost" href="/#alumni">Our Alumni</a></p></div>""")
 
 redirects = {
     "home": "/", "about-the-founder": "/about#founder", "why-100-is-enough": "/about#why-100",
-    "about-page": "/about", "about-page-for-math-people": "/about", "courses-fall-2025": "/courses",
-    "foundations-of-mathematics": "/courses#foundations", "curriculum": "/courses", "detailed-curriculum": "/courses",
+    "about-page": "/about", "about-page-for-math-people": "/about", "courses": "/", "courses-fall-2025": "/",
+    "foundations-of-mathematics": "/", "curriculum": "/", "detailed-curriculum": "/",
     "manta-protect": "/", "manta-protect-roadmap": "/", "phd-verification-project": "/", "facebook-landing-page": "/", "mentorship": "/about",
     "mentorship-1": "/about", "funding-page": "/about", "manta-blog": "/",
 }
@@ -326,7 +306,7 @@ with open(os.path.join(OUT, "CNAME"), "w") as f:
     f.write("www.mantainstitute.org\n")
 with open(os.path.join(OUT, "robots.txt"), "w") as f:
     f.write("User-agent: *\nAllow: /\nSitemap: https://www.mantainstitute.org/sitemap.xml\n")
-urls = ["", "about", "courses", "journey"]
+urls = ["", "about", "journey"]
 with open(os.path.join(OUT, "sitemap.xml"), "w") as f:
     f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
             "".join(f"  <url><loc>https://www.mantainstitute.org/{u}</loc></url>\n" for u in urls) + "</urlset>\n")

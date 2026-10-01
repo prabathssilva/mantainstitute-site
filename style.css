@@ -128,3 +128,22 @@ figure img{border-radius:6px;border:1px solid var(--rule)}
 .yt-band::before{display:none}
 .video{position:relative;aspect-ratio:16/9;margin:1.4em 0;border-radius:8px;overflow:hidden;border:1px solid var(--rule);background:#000}
 .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* Alumni */
+.alumni{padding:88px 0;border-bottom:1px solid var(--rule);background:var(--paper)}
+.alumni .kicker{font-size:.85rem;text-transform:uppercase;letter-spacing:.12em;color:var(--teal);margin:0 0 .6em;font-weight:600}
+.alumni h2{margin-top:0}
+.alumni .lede{font-size:1.15rem;color:var(--ink-soft);max-width:760px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:28px 0 32px}
+.stats div{background:var(--paper-2);border-radius:6px;padding:18px 20px}
+.stats strong{display:block;font-family:var(--serif);font-size:2.1rem;color:var(--teal);line-height:1.1}
+.stats span{font-size:.95rem;color:var(--ink-soft)}
+@media (max-width:640px){.stats{grid-template-columns:1fr}}
+.alumni-grid{list-style:none;padding:0;margin:0;display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.alum{background:#fff;border:1px solid var(--rule);border-top:3px solid var(--teal);border-radius:6px;padding:14px 16px;margin:0;display:flex;flex-direction:column;gap:2px}
+.alum b{font-family:var(--serif);font-weight:400;font-size:1rem;line-height:1.35}
+.alum .sur{font-weight:700}
+.alum .uni{font-size:.92rem;color:var(--ink-soft)}
+.alum .sems{font-size:.82rem;color:var(--teal);font-weight:600;letter-spacing:.02em}
+.alumni .source{font-size:.88rem;color:var(--ink-soft);margin-top:20px}
+.alumni{scroll-margin-top:72px}
