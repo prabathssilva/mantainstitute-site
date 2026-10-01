@@ -14,6 +14,13 @@ def page(fname, title, desc, body, head_extra=""):
     menu = "".join(
         f'<li><a href="/{"" if f=="index.html" else ("#"+f.split("#")[1] if "#" in f else f[:-5])}"{" aria-current=page" if f==fname else ""}>{n}</a></li>'
         for f, n in NAV)
+    canon = "https://www.mantainstitute.org/" + ("" if fname == "index.html" else fname[:-5])
+    ld = ('<script type="application/ld+json">{"@context":"https://schema.org","@type":"EducationalOrganization",'
+          '"name":"Manta Institute for Mathematics","url":"https://www.mantainstitute.org/",'
+          '"logo":"https://www.mantainstitute.org/img/manta-mark.png","email":"' + EMAIL + '",'
+          '"founder":{"@type":"Person","name":"Prabath Silva"},'
+          '"description":"Mentorship and rigorous training in pure mathematics for students from Sri Lanka; affiliated organization of Math in Moscow.",'
+          '"sameAs":["' + YOUTUBE + '"]}</script>') if fname == "index.html" else ""
     full_title = "Manta Institute for Mathematics" if fname == "index.html" else f"{title} — Manta Institute for Mathematics"
     html = f"""<!doctype html>
 <html lang="en">
@@ -26,6 +33,9 @@ def page(fname, title, desc, body, head_extra=""):
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="https://www.mantainstitute.org/img/og.jpg">
 <meta property="og:type" content="website">
+<meta property="og:url" content="{canon}">
+<link rel="canonical" href="{canon}">
+{ld}
 <link rel="icon" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -177,7 +187,7 @@ home = f"""
   </div>
 </section>
 """
-page("index.html", "Home", "Manta Institute for Mathematics — deep mentorship and rigorous training for the next generation of pure mathematicians, beginning in Sri Lanka. Free for students.", home)
+page("index.html", "Home", "Manta Institute for Mathematics: free mentorship and rigorous training for Sri Lanka’s next generation of pure mathematicians. 17 Manta students have studied at Math in Moscow.", home)
 
 # ---------------------------------------------------------------- ABOUT
 about = f"""
